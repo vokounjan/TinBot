@@ -4,16 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using TwitterBot.DataAccess;
+using TinBot.DataAccess;
 
-namespace TwitterBot.Business.Bots
+namespace TinBot.Business.Bots
 {
     public class AdamVojtechNeBot : IBot
     {
         private readonly ILogger<AdamVojtechNeBot> _logger;
-        private readonly TwitterContext _context;
+        private readonly TinContext _context;
 
-        public AdamVojtechNeBot(ILogger<AdamVojtechNeBot> logger, TwitterContext context)
+        public AdamVojtechNeBot(ILogger<AdamVojtechNeBot> logger, TinContext context)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _context = context ?? throw new ArgumentNullException(nameof(context));

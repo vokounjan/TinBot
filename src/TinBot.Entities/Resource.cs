@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TwitterBot.Entities
+namespace TinBot.Entities
 {
     public class Resource
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using TwitterBot.DataAccess;
+using TinBot.DataAccess;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -8,7 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDataContextServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TwitterContext>(options => options.UseSqlServer(configuration.GetConnectionString(nameof(TwitterContext))));
+            services.AddDbContext<TinContext>(options => options.UseSqlServer(configuration.GetConnectionString(nameof(TinContext))));
 
             return services;
         }

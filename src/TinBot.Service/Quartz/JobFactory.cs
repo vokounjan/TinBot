@@ -4,7 +4,7 @@ using Quartz.Spi;
 using System;
 using System.Collections.Concurrent;
 
-namespace TwitterBot.Service
+namespace TinBot.Service
 {
     public class JobFactory : IJobFactory
     {

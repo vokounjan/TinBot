@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace TwitterBot.Service
+namespace TinBot.Service
 {
     public static class Program
     {

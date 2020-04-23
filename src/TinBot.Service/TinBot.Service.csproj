@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>dotnet-TwitterBot.Service-360D4745-D6CA-4143-A3D8-CF28551F13E4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterBot.Business\TwitterBot.Business.csproj" />
+    <ProjectReference Include="..\TinBot.Business\TinBot.Business.csproj" />
   </ItemGroup>
 </Project>

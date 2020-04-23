@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterBot.Entities\TwitterBot.Entities.csproj" />
+    <ProjectReference Include="..\TinBot.Entities\TinBot.Entities.csproj" />
   </ItemGroup>
 
 </Project>

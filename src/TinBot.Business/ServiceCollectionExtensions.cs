@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using TwitterBot.Business.Bots;
+using TinBot.Business.Bots;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

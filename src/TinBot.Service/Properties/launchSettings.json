@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "TwitterBot.Service": {
+    "TinBot.Service": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

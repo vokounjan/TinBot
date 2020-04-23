@@ -7,9 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
-using TwitterBot.Service.Jobs;
+using TinBot.Service.Jobs;
 
-namespace TwitterBot.Service
+namespace TinBot.Service
 {
     public static class ServiceCollectionExtensions
     {

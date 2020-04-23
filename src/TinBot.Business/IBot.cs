@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace TwitterBot.Business
+namespace TinBot.Business
 {
     public interface IBot
     {

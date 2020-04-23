@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
 
-namespace TwitterBot.Service
+namespace TinBot.Service
 {
     public class Worker : IHostedService
     {
@@ -45,24 +45,17 @@ namespace TwitterBot.Service
             await Scheduler?.Shutdown(cancellationToken);
         }
 
-        private static IJobDetail CreateJob(JobSchedule schedule)
-        {
-            var jobType = schedule.JobType;
-            return JobBuilder
-                .Create(jobType)
-                .WithIdentity(jobType.FullName)
-                .WithDescription(jobType.Name)
-                .Build();
-        }
+        private static IJobDetail CreateJob(JobSchedule schedule) => JobBuilder
+            .Create(schedule.JobType)
+            .WithIdentity(schedule.JobType.FullName)
+            .WithDescription(schedule.JobType.Name)
+            .Build();
 
-        private static ITrigger CreateTrigger(JobSchedule schedule)
-        {
-            return TriggerBuilder
-                .Create()
-                .WithIdentity($"{schedule.JobType.FullName}.trigger")
-                .WithCronSchedule(schedule.CronExpression)
-                .WithDescription(schedule.CronExpression)
-                .Build();
-        }
+        private static ITrigger CreateTrigger(JobSchedule schedule) => TriggerBuilder
+            .Create()
+            .WithIdentity($"{schedule.JobType.FullName}.trigger")
+            .WithCronSchedule(schedule.CronExpression)
+            .WithDescription(schedule.CronExpression)
+            .Build();
     }
 }

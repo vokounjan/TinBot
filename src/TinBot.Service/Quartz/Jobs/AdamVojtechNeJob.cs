@@ -2,9 +2,9 @@
 using Quartz;
 using System;
 using System.Threading.Tasks;
-using TwitterBot.Business.Bots;
+using TinBot.Business.Bots;
 
-namespace TwitterBot.Service.Jobs
+namespace TinBot.Service.Jobs
 {
     [DisallowConcurrentExecution]
     public class AdamVojtechNeJob : IJob

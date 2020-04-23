@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TwitterBot.Entities
+namespace TinBot.Entities
 {
     public class AccountType
     {

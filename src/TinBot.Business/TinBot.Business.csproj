@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TwitterBot.DataAccess\TwitterBot.DataAccess.csproj" />
+    <ProjectReference Include="..\TinBot.DataAccess\TinBot.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
