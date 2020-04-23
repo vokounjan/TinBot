@@ -57,14 +57,17 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Resources.sql" />
     <Build Include="Tables\Accounts.sql" />
     <Build Include="Tables\AccountTypes.sql" />
     <Build Include="Tables\Schedulers.sql" />
+    <Build Include="Tables\NameDays.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Local.xml" />
+    <None Include="Local.publish.xml" />
+    <PostDeploy Include="Scripts\InsertNameDays.sql" />
   </ItemGroup>
 </Project>

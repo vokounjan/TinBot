@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[NameDays]
+(
+	[Id] INT NOT NULL IDENTITY,
+	[Date] DATE NOT NULL,
+	[Name] NVARCHAR(50) NOT NULL
+)
