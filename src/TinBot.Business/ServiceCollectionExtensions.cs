@@ -9,7 +9,11 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddDataContextServices(configuration);
 
-            services.AddTransient<AdamVojtechNeBot>();
+            services.AddScoped<NameDayRetriever>();
+            services.AddTransient<IdnesArticleRetriever>();
+            services.AddTransient<BitcoinPriceRetriever>();
+            services.AddTransient<MoonPhaseRetriever>();
+            services.AddTransient<WeatherRetriever>();
 
             return services;
         }
