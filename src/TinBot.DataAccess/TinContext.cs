@@ -10,7 +10,6 @@ namespace TinBot.DataAccess
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
         public DbSet<NameDay> NameDays{ get; set; }
     }
 }
