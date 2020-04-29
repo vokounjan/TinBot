@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text;
 
 namespace TinBot.Service
 {
@@ -11,6 +12,8 @@ namespace TinBot.Service
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
                     services.AddServiceServices(hostContext.Configuration);
                     services.AddHostedService<Worker>();
                 });

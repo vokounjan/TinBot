@@ -19,7 +19,7 @@ namespace TinBot.Business.Bots
             var mainPageWeb = new HtmlWeb();
             var mainPageDocument = await mainPageWeb.LoadFromWebAsync(IdnesUrl);
 
-            var mainTitle = mainPageDocument.DocumentNode.SelectSingleNode("//*[@id=\"votwyrak\"]/a/h3").InnerText;
+            var mainTitle = mainPageDocument.DocumentNode.SelectSingleNode("//*[@id=\"votwyrak\"]/div/a/h3").InnerText;
 
             _logger.LogInformation("Main iDnes title is " + mainTitle);
 
