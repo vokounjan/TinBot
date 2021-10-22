@@ -22,7 +22,7 @@ namespace TinBot.Service
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
             services.AddTransient<RefreshBioJob>();
-            services.AddSingleton(new JobSchedule(typeof(RefreshBioJob), "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(typeof(RefreshBioJob), configuration.GetValue<string>("Cron")));
 
             return services;
         }
