@@ -21,8 +21,8 @@ namespace TinBot.Business.Bots
             var web = new HtmlWeb();
             var document = await web.LoadFromWebAsync(BitcoinUrl);
 
-            var czkPrice = document.DocumentNode.SelectSingleNode(CzkXPath).InnerText;
-            var usdPrice = document.DocumentNode.SelectSingleNode(UsdXPath).InnerText;
+            var czkPrice = document.DocumentNode.SelectSingleNode(CzkXPath).InnerText.Split('.')[0];
+            var usdPrice = document.DocumentNode.SelectSingleNode(UsdXPath).InnerText.Split('.')[0];
 
             _logger.LogInformation($"Bitcoin price: ${usdPrice} / {czkPrice} CZK");
 

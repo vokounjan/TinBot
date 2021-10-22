@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -44,51 +46,52 @@ namespace TinBot.Service.Jobs
 
             try
             {
-                await A();
                 var stopWatch = new Stopwatch();
-                GC.Collect();
                 stopWatch.Start();
 
+                var time = DateTime.Now.AddMinutes(1).ToShortTimeString();
                 var nameDaysToday = await _nameDayRetriver.GetNameDay();
-                var idnesArticle = await _idnesArticleRetriever.GetMainArticleName();
                 var bitcoin = await _bitcoinPriceRetriever.GetBitcoinPrices();
                 var moonPhase = await _moonPhaseRetriever.GetMoonPhase();
                 var weatherCZ = await _weatherRetriever.GetWeather(WeatherLanguage.Czech);
-                var weatherEN = await _weatherRetriever.GetWeather(WeatherLanguage.English);
+
+                //var idnesArticle = await _idnesArticleRetriever.GetMainArticleName();
+                //var weatherEN = await _weatherRetriever.GetWeather(WeatherLanguage.English);
 
                 var stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("Jolandina poslední předpověd před smrtí");
-                stringBuilder.AppendLine();
-                stringBuilder.AppendLine();
-                stringBuilder.AppendLine("Svého vysněného muže potkáš ve chvíli kdy:");
-                stringBuilder.AppendLine($"• hodiny ukazují {DateTime.Now.AddMinutes(1).ToShortTimeString()}");
-                stringBuilder.AppendLine($"• venku je {weatherCZ.ToString().LowercaseFirstChar()}");
-                stringBuilder.AppendLine($"• svátek slaví {nameDaysToday[DateTime.Now.Millisecond % nameDaysToday.Count]}");
-                stringBuilder.AppendLine($"• Bitcoin stojí {bitcoin.PriceUsd}");
-                stringBuilder.AppendLine($"• {moonPhase}");
-                //stringBuilder.AppendLine($"• iDnes říká '{idnesArticle}'");
-                stringBuilder.AppendLine();
-                stringBuilder.AppendLine("Jo a prý se bude jmenovat Jan nebo tak nějak, tak to radši nepropásni.");
+                stringBuilder.Append($"Ahoj, ");
+                stringBuilder.Append($"hodiny ukazují {time}, ");
+                stringBuilder.Append($"venku je {weatherCZ.ToString().LowercaseFirstChar()}, ");
+                stringBuilder.Append($"Bitcoin stojí {bitcoin.PriceUsd} dolarů, ");
+                stringBuilder.Append($"svátek slaví {nameDaysToday.First()} ");
+                stringBuilder.Append("a já mám asi moc volnýho času. 🙃");
+                stringBuilder.Append("\n\n");
+                stringBuilder.Append("Takže - půjdeme na kafe, nebo na víno?");
+                stringBuilder.Append("\n\n");
+                stringBuilder.Append("🇨🇿🇬🇧🇪🇦");
+                stringBuilder.Append("\n\n");
+                stringBuilder.Append("184 cm");
 
-                var final = stringBuilder.ToString();
+                var text = stringBuilder.ToString();
+
+                await UpdateBio(text);
+
                 stopWatch.Stop();
-
-                Console.WriteLine(final);
-                Console.WriteLine(final.Length);
-
-                Console.WriteLine(stopWatch.ElapsedMilliseconds);
+                _logger.LogInformation($"Bio updated in {stopWatch.ElapsedMilliseconds}ms");
             }
             catch (Exception ex)
             {
-
+                _logger.LogError($"Bio update failed: {ex}");
+                await UpdateBio(string.Empty);
             }
-
-            _logger.LogInformation("Bio refreshed!");
         }
 
-        async Task A()
+        private async Task UpdateBio(string text)
         {
-            var request = new HttpRequestMessage
+            var bio = new JObject(new JProperty("user", new JObject(new JProperty("bio", text))));
+            var bioJson = JsonConvert.SerializeObject(bio, Formatting.None);
+
+            using var request = new HttpRequestMessage
             {
                 RequestUri = new Uri("https://api.gotinder.com/v2/profile?locale=cs"),
                 Method = HttpMethod.Post,
@@ -101,15 +104,19 @@ namespace TinBot.Service.Jobs
                     { "pragma", "no-cache" },
                     { "cache-control", "no-cache" },
                     { "dnt", "1" },
-                    { "app-session-time-elapsed", "52844" },
-                    { "user-session-time-elapsed", "52686" },
+                    { "app-session-time-elapsed", "246964" },
+                    { "x-auth-token", "841ae712-dddd-4a21-9a41-75e92366bb8f" },
+                    { "user-session-time-elapsed", "246779" },
                     { "sec-fetch-dest", "empty" },
-                    { "x-supported-image-formats", "webp,jpeg" },
-                    { "tinder-version", "2.34.0" },
+                    { "x-supported-image-formats", "jpeg" },
+                    { "persistent-device-id", "2fe1a36c-8133-45fa-a336-77dbb143016b" },
+                    { "tinder-version", "3.2.1" },
                     { "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36" },
+                    { "user-session-id", "63af1bfd-e1a0-4377-93c6-90b1110181bf" },
                     { "accept", "application/json" },
                     { "platform", "web" },
-                    { "app-version", "1023400" },
+                    { "app-session-id", "78238a9a-61c7-4854-a5b9-84e66f7f40ac" },
+                    { "app-version", "1030201" },
                     { "origin", "https://tinder.com" },
                     { "sec-fetch-site", "cross-site" },
                     { "sec-fetch-mode", "cors" },
@@ -117,14 +124,14 @@ namespace TinBot.Service.Jobs
                     { "accept-encoding", "gzip, deflate, br" },
                     { "accept-language", "cs-CZ,cs;q=0.9,en;q=0.8,es;q=0.7,sk;q=0.6" },
                 },
-                Content = new StringContent(@"{""user"":{""bio"":"".""}}", Encoding.UTF8, "application/json"),
+                Content = new StringContent(bioJson, Encoding.UTF8, "application/json"),
             };
 
+            using var client = new HttpClient();
+            var response = await client.SendAsync(request);
 
-            var client = new HttpClient();
-            var res1 = await client.SendAsync(request);
-
-            request.Dispose();
+            if (!response.IsSuccessStatusCode)
+                throw new InvalidOperationException(response.ReasonPhrase);
         }
     }
 }

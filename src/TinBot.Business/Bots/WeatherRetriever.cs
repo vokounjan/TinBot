@@ -16,8 +16,11 @@ namespace TinBot.Business.Bots
         private const string CzechWeatherUrl = "https://weather.com/cs-CZ/pocasi/dnes/l/EZXX0012:1:EZ";
         private const string EnglishWeatherUrl = "https://weather.com/en-US/pocasi/dnes/l/EZXX0012:1:EZ";
 
-        private const string PhraseXPath = "//div[@class = 'today_nowcard-phrase']";
-        private const string TemperatureXPath = "//div[@class = 'today_nowcard-temp']";
+        //private const string PhraseXPath = "//div[@class = 'today_nowcard-phrase']";
+        //private const string TemperatureXPath = "//div[@class = 'today_nowcard-temp']";
+
+        private const string PhraseXPath = @"//div[@data-testid='wxPhrase']";
+        private const string TemperatureXPath = @"//span[@data-testid='TemperatureValue']";
 
         public WeatherRetriever(ILogger<WeatherRetriever> logger)
         {
@@ -61,6 +64,7 @@ namespace TinBot.Business.Bots
     {
         public string Phrase { get; set; }
         public string Temperature { get; set; }
+
         public override string ToString() => $"{Phrase} ({Temperature})";
     }
 }

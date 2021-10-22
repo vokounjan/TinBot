@@ -21,7 +21,6 @@ namespace TinBot.Service
             services.AddSingleton<IJobFactory, JobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 
-            // Add our job
             services.AddTransient<RefreshBioJob>();
             services.AddSingleton(new JobSchedule(typeof(RefreshBioJob), "0/5 * * * * ?"));
 
