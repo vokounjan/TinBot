@@ -63,7 +63,8 @@ namespace TinBot.Service.Jobs
                 stringBuilder.Append($"hodiny ukazují {time}, ");
                 stringBuilder.Append($"venku je {weatherCZ.ToString().LowercaseFirstChar()}, ");
                 stringBuilder.Append($"Bitcoin stojí {bitcoin.PriceUsd} dolarů, ");
-                stringBuilder.Append($"svátek slaví {nameDaysToday.First()} ");
+                stringBuilder.Append($"svátek slaví {nameDaysToday.First()}, ");
+                stringBuilder.Append($"{moonPhase.LowercaseFirstChar()} ");
                 stringBuilder.Append("a já mám asi moc volnýho času. 🙃");
                 stringBuilder.Append("\n\n");
                 stringBuilder.Append("Takže - půjdeme na kafe, nebo na víno?");
