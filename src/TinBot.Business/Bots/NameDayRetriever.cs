@@ -13,15 +13,24 @@ namespace TinBot.Business.Bots
 
         public NameDayRetriever(TinContext context) => _context = context;
 
-        public async Task<List<string>> GetNameDay()
+        public async Task<string> GetNameDay()
         {
             var nameDays = await _context.NameDays.ToListAsync();
 
-            return nameDays
+            var todayNameDays = nameDays
                 .Where(o => o.Date.Day == DateTime.Today.Day && o.Date.Month == DateTime.Today.Month)
                 .Select(o => o.Name)
                 .OrderBy(o => o)
                 .ToList();
+
+            var merged = todayNameDays switch
+            {
+                { Count: 1 } => todayNameDays.First(),
+                { Count: > 1 } => string.Join(", ", todayNameDays.Take(todayNameDays.Count - 1)) + " & " + todayNameDays.Last(),
+                _ => "nikdo",
+            };
+
+            return merged;
         }
     }
 }
