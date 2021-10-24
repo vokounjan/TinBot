@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using TinBot.Service.Jobs;
+using TinBot.Service.Options;
 
 namespace TinBot.Service
 {
@@ -23,6 +24,8 @@ namespace TinBot.Service
 
             services.AddTransient<RefreshBioJob>();
             services.AddSingleton(new JobSchedule(typeof(RefreshBioJob), configuration.GetValue<string>("Cron")));
+
+            services.Configure<SecretsOptions>(configuration.GetSection(nameof(SecretsOptions)));
 
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Quartz;
@@ -11,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TinBot.Business.Bots;
+using TinBot.Service.Options;
 
 namespace TinBot.Service.Jobs
 {
@@ -18,6 +20,7 @@ namespace TinBot.Service.Jobs
     public class RefreshBioJob : IJob
     {
         private readonly ILogger<RefreshBioJob> _logger;
+        private readonly IOptions<SecretsOptions> _secretOptions;
         private readonly NameDayRetriever _nameDayRetriver;
         private readonly IdnesArticleRetriever _idnesArticleRetriever;
         private readonly BitcoinPriceRetriever _bitcoinPriceRetriever;
@@ -26,6 +29,7 @@ namespace TinBot.Service.Jobs
 
         public RefreshBioJob(
             ILogger<RefreshBioJob> logger,
+            IOptions<SecretsOptions> secretOptions,
             NameDayRetriever nameDayRetriver,
             IdnesArticleRetriever idnesArticleRetriever,
             BitcoinPriceRetriever bitcoinPriceRetriever,
@@ -33,6 +37,7 @@ namespace TinBot.Service.Jobs
             MoonPhaseRetriever moonPhaseRetriever)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _secretOptions = secretOptions ?? throw new ArgumentNullException(nameof(secretOptions));
             _nameDayRetriver = nameDayRetriver ?? throw new ArgumentNullException(nameof(nameDayRetriver));
             _idnesArticleRetriever = idnesArticleRetriever ?? throw new ArgumentNullException(nameof(idnesArticleRetriever));
             _bitcoinPriceRetriever = bitcoinPriceRetriever ?? throw new ArgumentNullException(nameof(bitcoinPriceRetriever));
@@ -66,8 +71,8 @@ namespace TinBot.Service.Jobs
                 stringBuilder.Append($"Bitcoin stojí {bitcoin.PriceUsd} dolarů ");
                 stringBuilder.Append($"a {moonPhase.LowercaseFirstChar()}.");
                 stringBuilder.Append("\n\n");
-                stringBuilder.Append("Piješ kafe nebo víno? 🙂");
-                stringBuilder.Append("\n\n");
+                //stringBuilder.Append("Piješ kafe nebo víno? 🙂");
+                //stringBuilder.Append("\n\n");
                 stringBuilder.Append("🇨🇿🇬🇧🇪🇦");
                 stringBuilder.Append("\n\n");
                 stringBuilder.Append("184 cm");
@@ -105,17 +110,17 @@ namespace TinBot.Service.Jobs
                     { "cache-control", "no-cache" },
                     { "dnt", "1" },
                     { "app-session-time-elapsed", "246964" },
-                    { "x-auth-token", "841ae712-dddd-4a21-9a41-75e92366bb8f" },
+                    { "x-auth-token", _secretOptions.Value.XAuthToken },
                     { "user-session-time-elapsed", "246779" },
                     { "sec-fetch-dest", "empty" },
                     { "x-supported-image-formats", "jpeg" },
-                    { "persistent-device-id", "2fe1a36c-8133-45fa-a336-77dbb143016b" },
+                    { "persistent-device-id", _secretOptions.Value.PersistentDeviceId },
                     { "tinder-version", "3.2.1" },
                     { "user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36" },
-                    { "user-session-id", "63af1bfd-e1a0-4377-93c6-90b1110181bf" },
+                    { "user-session-id", _secretOptions.Value.UserSessionId },
                     { "accept", "application/json" },
                     { "platform", "web" },
-                    { "app-session-id", "78238a9a-61c7-4854-a5b9-84e66f7f40ac" },
+                    { "app-session-id", _secretOptions.Value.AppSessionId },
                     { "app-version", "1030201" },
                     { "origin", "https://tinder.com" },
                     { "sec-fetch-site", "cross-site" },

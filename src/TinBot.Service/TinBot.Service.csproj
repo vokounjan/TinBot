@@ -24,8 +24,4 @@
 	<ItemGroup>
 		<ProjectReference Include="..\TinBot.Business\TinBot.Business.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Options\" />
-	</ItemGroup>
 </Project>
